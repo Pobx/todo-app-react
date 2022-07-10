@@ -15,12 +15,12 @@ export const getTodos = async (): Promise<AxiosResponse<ApiDataType>> => {
 };
 
 export const addTodo = async (
-  entity: ITodo
+  todo: ITodo
 ): Promise<AxiosResponse<ApiDataType>> => {
   try {
     const response: AxiosResponse<ApiDataType> = await axios.post(
       baseUrl + "/add",
-      entity
+      todo
     );
     return response;
   } catch (error) {
@@ -30,12 +30,12 @@ export const addTodo = async (
 };
 
 export const updateTodo = async (
-  entity: ITodo
+  todo: ITodo
 ): Promise<AxiosResponse<ApiDataType>> => {
   try {
     const response: AxiosResponse<ApiDataType> = await axios.put(
-      baseUrl + "/edit?id=" + entity.id,
-      entity
+      baseUrl + "/edit?id=" + todo.id,
+      todo
     );
     return response;
   } catch (error) {
