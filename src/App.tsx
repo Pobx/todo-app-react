@@ -11,31 +11,40 @@ const App: React.FC = () => {
 
   const fetchTodos = (): void => {
     getTodos()
-      .then(({ data: { todos } }: ITodo[] | any) => setTodos(todos))
+      .then(({ data: { entity } }: ITodo[] | any) => setTodos(entity))
       .catch((err: Error) => console.log(err));
   };
 
   const handleSaveTodo = (e: React.FormEvent, entity: ITodo): void => {
     e.preventDefault();
+    entity.status = false;
+    entity.createdAt = `Pobx ${Math.random()}`;
     addTodo(entity)
       .then(({ status, data }) => {
         if (status !== 201) {
           throw new Error("Error! Todo not saved");
         }
 
-        setTodos(data.todos);
+        console.log(data);
+
+        fetchTodos();
+        // setTodos(data.entity);
       })
       .catch((err) => console.log(err));
   };
 
-  const handleUpdateTodo = (todo: ITodo): void => {
-    updateTodo(todo)
+  const handleUpdateTodo = (entity: ITodo): void => {
+    entity.status = !entity.status;
+    entity.updateAt = `Pobx ${Math.random()}`;
+    updateTodo(entity)
       .then(({ status, data }) => {
         if (status !== 200) {
           throw new Error("Error! Todo not updaetd");
         }
 
-        setTodos(data.todos);
+        console.log(data);
+        fetchTodos();
+        // setTodos(data.todos);
       })
       .catch((err) => console.log(err));
   };
@@ -47,7 +56,9 @@ const App: React.FC = () => {
           throw new Error("Error! Todo not deleted");
         }
 
-        setTodos(data.todos);
+        console.log(data);
+        fetchTodos();
+        // setTodos(data.todos);
       })
       .catch((err) => console.log(err));
   };
@@ -57,12 +68,7 @@ const App: React.FC = () => {
       <h1>My Todos</h1>
       <AddTodo saveTodo={handleSaveTodo} />
       {todos.map((todo: ITodo) => (
-        <TodoItem
-          key={todo.id}
-          updateTodo={handleUpdateTodo}
-          deleteTodo={handleDeleteTodo}
-          todo={todo}
-        />
+        <TodoItem key={todo.id} updateTodo={handleUpdateTodo} deleteTodo={handleDeleteTodo} todo={todo} />
       ))}
     </main>
   );
