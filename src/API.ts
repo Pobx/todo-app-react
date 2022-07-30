@@ -1,27 +1,21 @@
 import axios, { AxiosResponse } from "axios";
 
-const baseUrl = "http://localhost:3000";
+const baseUrl = "http://localhost:3001/todo";
 
-export const getTodos = async (): Promise<AxiosResponse<ApiDataType>> => {
+export const getTodos = async (): Promise<AxiosResponse<ApiDataType<ITodo[]>>> => {
   try {
-    const todos: AxiosResponse<ApiDataType> = await axios.get(
-      baseUrl + "/todos"
-    );
-    return todos;
+    const entity: AxiosResponse<ApiDataType<ITodo[]>> = await axios.get(`${baseUrl}/findAll`);
+
+    return entity;
   } catch (error) {
     console.log(error);
     throw new Error("APIs error");
   }
 };
 
-export const addTodo = async (
-  todo: ITodo
-): Promise<AxiosResponse<ApiDataType>> => {
+export const addTodo = async (todo: ITodo): Promise<AxiosResponse<ApiDataType<ITodo>>> => {
   try {
-    const response: AxiosResponse<ApiDataType> = await axios.post(
-      baseUrl + "/add",
-      todo
-    );
+    const response: AxiosResponse<ApiDataType<ITodo>> = await axios.post(baseUrl, todo);
     return response;
   } catch (error) {
     console.log(error);
@@ -29,14 +23,9 @@ export const addTodo = async (
   }
 };
 
-export const updateTodo = async (
-  todo: ITodo
-): Promise<AxiosResponse<ApiDataType>> => {
+export const updateTodo = async (todo: ITodo): Promise<AxiosResponse<ApiDataType<ITodo>>> => {
   try {
-    const response: AxiosResponse<ApiDataType> = await axios.put(
-      baseUrl + "/edit?id=" + todo.id,
-      todo
-    );
+    const response: AxiosResponse<ApiDataType<ITodo>> = await axios.put(baseUrl, todo);
     return response;
   } catch (error) {
     console.log(error);
@@ -44,13 +33,9 @@ export const updateTodo = async (
   }
 };
 
-export const deleteTodo = async (
-  id: number
-): Promise<AxiosResponse<ApiDataType>> => {
+export const deleteTodo = async (id: number): Promise<AxiosResponse<ApiDataType<ITodo>>> => {
   try {
-    const response: AxiosResponse<ApiDataType> = await axios.delete(
-      baseUrl + "/delete?id=" + id
-    );
+    const response: AxiosResponse<ApiDataType<ITodo>> = await axios.delete(`${baseUrl}?id=${id}`);
     return response;
   } catch (error) {
     console.log(error);
