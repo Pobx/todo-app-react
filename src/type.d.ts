@@ -11,9 +11,7 @@ interface TodoProps {
   todo: ITodo;
 }
 
-type ApiDataType = {
-  message: string;
-  status: string;
-  todos: ITodo[];
-  todo?: ITodo;
+type ApiDataType<T> = {
+  message: string[];
+  entity: T;
 };
